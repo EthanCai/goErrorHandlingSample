@@ -10,12 +10,12 @@ import (
 func ReadFile(path string) ([]byte, error) {
 	f, err := os.Open(path)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("open failed: %+v", err)
 	}
 	defer f.Close()
 	buf, err := ioutil.ReadAll(f)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read failed: %+v", err)
 	}
 	return buf, nil
 }
@@ -23,7 +23,7 @@ func ReadFile(path string) ([]byte, error) {
 func ReadConfig() ([]byte, error) {
 	home := os.Getenv("HOME")
 	config, err := ReadFile(filepath.Join(home, ".settings.xml"))
-	return config, err
+	return config, fmt.Errorf("could not read config: %+v", err)
 }
 
 func main() {
